@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NATO Phonetic Alphabet Practice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .dark-mode {
+            background-color: #222;
+            color: #fff;
+        }
+        
+        #container {
+            margin-top: 50px;
+        }
+        
+        .card {
+            display: inline-block;
+            padding: 50px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px;
+            font-size: 96px;
+            transition: font-size 0.3s ease;
+        }
+
+        .card.no-items {
+            font-size: 26px; /* Decrease the font size for the "No items to practice" message */
+        }
+        
+        #answer {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+        #toggle-dark-mode {
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        #mode-selection {
+            margin-top: 20px;
+        }
+        
+        .button {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>NATO Phonetic Alphabet Practice</h1>
+        <p>by ProfCyberNaught</p>
+        <button class="button" id="toggle-dark-mode">Toggle Dark Mode</button><br />
+        <div class="card" id="letter-display"></div>
+        <div>
+            <button class="button" id="reveal-button">Reveal Answer</button>
+        </div>
+        <p id="answer"></p>
+        <button class="button" id="next-button">Next</button>
+        
+        <div id="mode-selection">
+            <p>Filter Options:</p>
+            <input type="checkbox" id="letters-checkbox" checked>
+            <label for="letters-checkbox">Practice Letters</label>
+            <input type="checkbox" id="numbers-checkbox" checked>
+            <label for="numbers-checkbox">Practice Numbers</label>
+        </div>
+        <br />
+        <button class="button" id="reset-button">Restart</button>
+        
+            <p>Copyright &copy; 2023</p>
+        
+    </div>
+    
+    <script>
+        // NATO Phonetic Alphabet object
+        const natoAlphabet = {
+            A: "Alpha",
+            B: "Bravo",
+            C: "Charlie",
+            D: "Delta",
+            E: "Echo",
+            F: "Foxtrot",
+            G: "Golf",
+            H: "Hotel",
+            I: "India",
+            J: "Juliett",
+            K: "Kilo",
+            L: "Lima",
+            M: "Mike",
+            N: "November",
+            O: "Oscar",
+            P: "Papa",
+            Q: "Quebec",
+            R: "Romeo",
+            S: "Sierra",
+            T: "Tango",
+            U: "Uniform",
+            V: "Victor",
+            W: "Whiskey",
+            X: "X-ray",
+            Y: "Yankee",
+            Z: "Zulu",
+            0: "Zero",
+            1: "One",
+            2: "Two",
+            3: "Three",
+            4: "Four",
+            5: "Five",
+            6: "Six",
+            7: "Seven",
+            8: "Eight",
+            9: "Niner"
+        };
+        
+        let lettersToPractice = [];
+        let numbersToPractice = [];
+        let currentPracticeType = "all";
+        
+        // Get random letter from available lettersToPractice array
+        function getRandomLetter() {
+            const randomIndex = Math.floor(Math.random() * lettersToPractice.length);
+            return lettersToPractice.splice(randomIndex, 1)[0];
+        }
+        
+        // Get random number from available numbersToPractice array
+        function getRandomNumber() {
+            const randomIndex = Math.floor(Math.random() * numbersToPractice.length);
+            return numbersToPractice.splice(randomIndex, 1)[0];
+        }
+        
+        // Initialize letters and numbers arrays based on mode selection
+        function initializePracticeArrays() {
+            const lettersCheckbox = document.getElementById("letters-checkbox");
+            const numbersCheckbox = document.getElementById("numbers-checkbox");
+            
+            lettersToPractice = lettersCheckbox.checked ? Object.keys(natoAlphabet).filter(key => isNaN(key)) : [];
+            numbersToPractice = numbersCheckbox.checked ? Object.keys(natoAlphabet).filter(key => !isNaN(key)) : [];
+        }
+        
+        // Display a new random letter or number
+        function displayRandomLetterOrNumber() {
+            const letterDisplay = document.getElementById("letter-display");
+            const answer = document.getElementById("answer");
+
+            let randomLetterOrNumber = '';
+
+            if (currentPracticeType === "letters" && lettersToPractice.length > 0) {
+                randomLetterOrNumber = getRandomLetter();
+            } else if (currentPracticeType === "numbers" && numbersToPractice.length > 0) {
+                randomLetterOrNumber = getRandomNumber();
+            } else if (lettersToPractice.length > 0 && numbersToPractice.length > 0) {
+                const randomNumber = Math.random();
+                randomLetterOrNumber = randomNumber < 0.5 ? getRandomLetter() : getRandomNumber();
+            }
+
+            if (randomLetterOrNumber) {
+                letterDisplay.textContent = randomLetterOrNumber;
+                answer.textContent = "";
+                letterDisplay.classList.remove("no-items");
+            } else {
+                letterDisplay.innerHTML = "Completed <br />(restart required)";
+                answer.textContent = "";
+                letterDisplay.classList.add("no-items");
+            }
+        }
+        
+        // Reveal the answer for the displayed letter or number
+        function revealAnswer() {
+            const letterDisplay = document.getElementById("letter-display");
+            const answer = document.getElementById("answer");
+
+            const phoneticCode = natoAlphabet[letterDisplay.textContent];
+            if (phoneticCode) {
+                answer.textContent = `Answer: ${phoneticCode}`;
+            } else {
+                answer.textContent = "Answer: none";
+            }
+        }
+        
+        // Reset the practice session
+        function resetPracticeSession() {
+            initializePracticeArrays();
+            displayRandomLetterOrNumber();
+        }
+        
+        // Initialize the practice app
+        function initializeApp() {
+            const revealButton = document.getElementById("reveal-button");
+            const nextButton = document.getElementById("next-button");
+            const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+            const resetButton = document.getElementById("reset-button");
+            const lettersCheckbox = document.getElementById("letters-checkbox");
+            const numbersCheckbox = document.getElementById("numbers-checkbox");
+            
+            revealButton.addEventListener("click", revealAnswer);
+            nextButton.addEventListener("click", displayRandomLetterOrNumber);
+            toggleDarkModeButton.addEventListener("click", toggleDarkMode);
+            resetButton.addEventListener("click", resetPracticeSession);
+            lettersCheckbox.addEventListener("change", updatePracticeType);
+            numbersCheckbox.addEventListener("change", updatePracticeType);
+            
+            initializePracticeArrays();
+            displayRandomLetterOrNumber();
+        }
+        
+        // Toggle dark mode
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+        
+        // Update currentPracticeType based on checkbox selection
+        function updatePracticeType() {
+            const lettersCheckbox = document.getElementById("letters-checkbox");
+            const numbersCheckbox = document.getElementById("numbers-checkbox");
+            
+            if (lettersCheckbox.checked && numbersCheckbox.checked) {
+                currentPracticeType = "all";
+            } else if (lettersCheckbox.checked) {
+                currentPracticeType = "letters";
+            } else if (numbersCheckbox.checked) {
+                currentPracticeType = "numbers";
+            } else {
+                currentPracticeType = "";
+            }
+            
+            resetPracticeSession();
+        }
+        
+        initializeApp();
+    </script>
+</body>
+</html>
