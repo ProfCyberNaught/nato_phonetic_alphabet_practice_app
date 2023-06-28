@@ -136,12 +136,18 @@
         
         // Get random letter from available lettersToPractice array
         function getRandomLetter() {
+            if (lettersToPractice.length === 0) {
+                lettersToPractice = Object.keys(natoAlphabet).filter(key => isNaN(key));
+            }
             const randomIndex = Math.floor(Math.random() * lettersToPractice.length);
             return lettersToPractice.splice(randomIndex, 1)[0];
         }
         
         // Get random number from available numbersToPractice array
         function getRandomNumber() {
+            if (numbersToPractice.length === 0) {
+                numbersToPractice = Object.keys(natoAlphabet).filter(key => !isNaN(key));
+            }
             const randomIndex = Math.floor(Math.random() * numbersToPractice.length);
             return numbersToPractice.splice(randomIndex, 1)[0];
         }
