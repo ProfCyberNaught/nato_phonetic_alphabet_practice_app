@@ -57,8 +57,8 @@ Designed for: [Dark Mode Theme](https://github.com/settings/appearance "Enable D
   <ol>
   <!-- HELP NOTICE: If you need more links, copy and paste from this list, create your section below, then add the section link tag
        Do not forget to update all the tag links if you change names of the sections below -->
-    <li><a href="#about-the-repository-title">About NATO Phonetic Alphabet Practice App</a></li>
-    <li><a href="#table-example">Table Example</a></li>
+    <li><a href="#about-nato-phonetic-alphabet-practice-app">About NATO Phonetic Alphabet Practice App</a></li>
+    <li><a href="#">FAQs (Frequently Asked Questions)</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#attribution">Attributions</a></li>
   </ol>
