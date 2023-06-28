@@ -30,9 +30,6 @@ Designed for: [Dark Mode Theme](https://github.com/settings/appearance "Enable D
   <br />
 
 <!-- PROJECT MAIN LINKS -->
-  <!-- DOCUMENTATION LINK: IF YOU DO NOT INTEND TO CREATE DIRECTORY DOCUMENTATION, DISABLE THIS SECTION -->
-  <a href="./pcn_docs"><strong>Explore the docs »</strong></a>
-  <!---->
   <br />
   <br />
     <a href="./LICENSE">License</a>
