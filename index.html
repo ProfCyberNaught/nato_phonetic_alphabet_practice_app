@@ -163,26 +163,27 @@
         
         // Display a new random letter or number
 
-        let letterIndex = 0;
-        let numberIndex = 0;
-
         function displayRandomLetterOrNumber() {
             const letterDisplay = document.getElementById("letter-display");
             const answer = document.getElementById("answer");
 
-            let randomLetterOrNumber = '';
+            let randomLetterOrNumber = "";
 
             if (currentPracticeType === "letters" && lettersToPractice.length > 0) {
                 randomLetterOrNumber = getRandomLetter();
             } else if (currentPracticeType === "numbers" && numbersToPractice.length > 0) {
                 randomLetterOrNumber = getRandomNumber();
-            } else if (currentPracticeType === "all" && (lettersToPractice.length > 0 || numbersToPractice.length > 0)) {
-                if (letterIndex < lettersToPractice.length) {
-                    randomLetterOrNumber = getRandomLetter();
-                    letterIndex++;
-                } else {
-                    randomLetterOrNumber = getRandomNumber();
-                    numberIndex++;
+            } else if (currentPracticeType === "all") {
+                const lettersEmpty = lettersToPractice.length === 0;
+                const numbersEmpty = numbersToPractice.length === 0;
+
+                if (!lettersEmpty && !numbersEmpty) {
+                const randomNumber = Math.random();
+                randomLetterOrNumber = randomNumber < 0.5 ? getRandomLetter() : getRandomNumber();
+                } else if (lettersEmpty && !numbersEmpty) {
+                randomLetterOrNumber = getRandomNumber();
+                } else if (!lettersEmpty && numbersEmpty) {
+                randomLetterOrNumber = getRandomLetter();
                 }
             }
 
@@ -195,7 +196,8 @@
                 answer.textContent = "";
                 letterDisplay.classList.add("no-items");
             }
-        }
+            }
+
         
         // Reveal the answer for the displayed letter or number
         function revealAnswer() {
