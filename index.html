@@ -225,6 +225,7 @@
             
             initializePracticeArrays();
             displayRandomLetterOrNumber();
+            updatePracticeType();
         }
         
         // Toggle dark mode
@@ -236,7 +237,10 @@
         function updatePracticeType() {
             const lettersCheckbox = document.getElementById("letters-checkbox");
             const numbersCheckbox = document.getElementById("numbers-checkbox");
-            
+
+            lettersToPractice = lettersCheckbox.checked ? Object.keys(natoAlphabet).filter(key => isNaN(key)) : [];
+            numbersToPractice = numbersCheckbox.checked ? Object.keys(natoAlphabet).filter(key => !isNaN(key)) : [];
+
             if (lettersCheckbox.checked && numbersCheckbox.checked) {
                 currentPracticeType = "all";
             } else if (lettersCheckbox.checked) {
@@ -246,7 +250,7 @@
             } else {
                 currentPracticeType = "";
             }
-            
+
             resetPracticeSession();
         }
         
